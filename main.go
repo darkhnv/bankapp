@@ -11,21 +11,25 @@ import (
 const accountBalanceFile = "balance.txt"
 
 func main() {
+	// Get the account balance from the file
 	accountBalance, err := fileops.GetFloatFromFile(accountBalanceFile)
 	if err != nil {
 		fmt.Println("Error:", err)
 		os.Exit(1)
 	}
 
+	// Welcome message
 	fmt.Println("Welcome to Go Bank!")
 
 	for {
+		// Present user options
 		presentOptions()
 
 		var choice int
 		fmt.Print("Your choice: ")
 		fmt.Scan(&choice)
 
+		// Perform action based on user choice
 		switch choice {
 		case 1:
 			fmt.Println("Your balance is", accountBalance)
@@ -42,6 +46,7 @@ func main() {
 	}
 }
 
+// deposit function allows the user to deposit money into their account
 func deposit(balance float64) float64 {
 	fmt.Print("Enter the amount to deposit: ")
 	amount := getAmount()
@@ -51,12 +56,14 @@ func deposit(balance float64) float64 {
 		return balance
 	}
 
+	// Update balance and write to file
 	balance += amount
 	fmt.Println("Deposit successful! Your new balance is:", balance)
 	fileops.WriteFloatToFile(accountBalanceFile, balance)
 	return balance
 }
 
+// withdraw function allows the user to withdraw money from their account
 func withdraw(balance float64) float64 {
 	fmt.Print("Enter the amount to withdraw: ")
 	amount := getAmount()
@@ -71,18 +78,21 @@ func withdraw(balance float64) float64 {
 		return balance
 	}
 
+	// Update balance and write to file
 	balance -= amount
 	fmt.Println("Withdrawal successful! Your new balance is:", balance)
 	fileops.WriteFloatToFile(accountBalanceFile, balance)
 	return balance
 }
 
+// exitBank function exits the bank application
 func exitBank(balance float64) {
 	fmt.Println("Thank you for banking with us!")
 	fmt.Println("Your final balance is:", balance)
 	fmt.Println("Goodbye!")
 }
 
+// getAmount function reads and returns an amount entered by the user
 func getAmount() float64 {
 	var input string
 	fmt.Scanln(&input)
@@ -94,6 +104,7 @@ func getAmount() float64 {
 	return amount
 }
 
+// presentOptions function presents the banking options to the user
 func presentOptions() {
 	fmt.Println("What do you want to do?")
 	fmt.Println("1. Check balance")
